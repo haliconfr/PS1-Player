@@ -92,6 +92,8 @@ def initTrackNum(data):
                 xValue = 321
                 timesDone = 0
     else:
+        for i in range(size):
+            tiles[i].destroy()
         numTile = ImageTk.PhotoImage(Image.open(resource_path("images\\numbertile.png")))
         numberTile = Label(tk, text=str(1), font=(mainFont, 20), bg = "black", fg = "white", image=numTile, compound = "center", borderwidth=0).place(x=xValue + 62, y=yValue)
         image = getLocalImage(data["item"]["album"]["name"], data)
