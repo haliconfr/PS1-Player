@@ -13,7 +13,5 @@ Features:
 To add custom album art, create a .txt file in the "custom" folder and put a link to your image.
 I've put some examples in there already.
 
-feel free to use any code for anything! no need for credit :)
-
 There's a bug where the current track time won't be shown properly in Discord,
 this is a bug with Discord's API as far as I can tell and should be fixed whenever the API is.
