@@ -150,7 +150,7 @@ def TrackTime():
         minText.config(text = math.trunc(minutes))
     else:
         RPC.update(state="Paused on Spotify")
-    time.sleep(0.3)
+    time.sleep(0.9)
     Thread(target = TrackTime).start()
 
 def updateProgram():
