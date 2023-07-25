@@ -30,6 +30,7 @@ mainFont = "Gamestation Condensed"
 paused = False
 tiles = []
 SpotifyObject = 0
+progress = 0
 bg = ImageTk.PhotoImage(Image.open(resource_path(r"images\\background.png")))
 play = ImageTk.PhotoImage(Image.open(resource_path(r"images\\play.png")))
 pause = ImageTk.PhotoImage(Image.open(resource_path(r"images\\pause.png")))
@@ -137,15 +138,19 @@ def SkipTrack():
 def BackTrack():
     spotifyObject.previous_track()
         
-def TrackTime():
+def TrackTime(TrackInfo):
     if(paused == False):
         global spotifyObject
         global secText
         global minText
         global minutes
-        TrackInfo = spotifyObject.current_user_playing_track()
-        seconds = math.trunc((TrackInfo["progress_ms"]/1000)%60)
-        minutes = math.trunc((TrackInfo["progress_ms"]/(1000*60))%60)
+        global seconds
+        if(TrackInfo != null):
+            progress = int(TrackInfo["progress_ms"])
+        else:
+            progress = progress + 1000
+        seconds = math.trunc((progress/1000)%60)
+        minutes = math.trunc((progress/(1000*60))%60)
         secText.config(text = math.trunc(seconds))
         minText.config(text = math.trunc(minutes))
     else:
@@ -164,8 +169,14 @@ def updateProgram():
     time.sleep(0.1)
     Thread(target = updateProgram).start()
 
+def TrackTimeBump():
+    TrackInfo = spotifyObject.current_user_playing_track()
+    TrackTime(TrackInfo)
+    time.sleep(5)
+    Thread(target = TrackTime(TrackInfo)).start()
+
 tk.protocol('WM_DELETE_WINDOW', quitHandler)
-Thread(target = TrackTime).start()
+Thread(target = TrackTimeBump).start()
 Thread(target = updateProgram).start()
 Button(tk, image=play, command=PlayMusic, highlightthickness=0, borderwidth=0).place(x=193, y=514)
 Button(tk, image=pause, command=PauseMusic, highlightthickness=0, borderwidth=0).place(x=256, y=512)
